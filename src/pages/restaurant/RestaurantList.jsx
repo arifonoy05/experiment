@@ -5,22 +5,10 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import PlusIcon from "@heroicons/react/24/outline/PlusIcon";
-import { openModal, closeModal } from "../../components/Modal/modalSlice";
+import { openModal } from "../../components/Modal/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {getRestaurantList} from '../../features/restaurant'
-
-async function fetchData() {
-  const url = "http://localhost:8080/api/restaurants/all";
-  const response = await fetch(url)
-    .then((response) => response.json())
-    .then((data) => data)
-    .catch((error) => {
-      console.error(error)
-      return []
-    });
-
-  return response;
-}
+import RestaurantForm from "./RestaurantForm";
 
 function handleButtonClick(e, row) {
   console.log(row.original.foodCategoryEntities);
@@ -50,19 +38,10 @@ const columns = [
 ];
 
 const RestaurantList = () => {
-  // const restaurant = useSelector((state) => state.restaurant.value);
-  const [apiData, setApiData] =useState([]);
   const restaurant = useSelector((store) => store.restaurant);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // async function responseData() {
-    //   const res = await fetchData();
-    //   setApiData(res);
-    // }
-    // responseData();
-  
     dispatch(getRestaurantList())
   },[]);
 
@@ -73,7 +52,10 @@ const RestaurantList = () => {
   });
 
   function addNewRestaurantModal() {
-    console.log("open add new restaurant form");
+    const modalContent = <RestaurantForm />
+    dispatch(openModal({
+      content: modalContent
+    }));
   }
 
   return (

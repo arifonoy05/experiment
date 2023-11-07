@@ -7,12 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Modal from "./components/Modal/Modal";
 
 function App() {
-  const dispatch = useDispatch();
-  const { isOpen } = useSelector((store) => store.modal);
-
   return (
-    <>
-      {isOpen && <Modal />}
+    <div className="app relative">
+      <Modal />
 
       <nav className="flex justify-center align-middle gap-20 py-2 bg-blue-600 text-white">
         <Link to="/">Home</Link>
@@ -24,7 +21,7 @@ function App() {
         <Route path="/restaurant" element={<RestaurantList />} />
         <Route path="/restaurant/add" element={<RestaurantForm />} />
       </Routes>
-    </>
+    </div>
   );
 }
 
